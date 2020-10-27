@@ -4,12 +4,12 @@ from django.urls import reverse
 
 
 class Client(models.Model):
-    user = models.OneToOneField(User,verbose_name='', on_delete=models.CASCADE,
+    user = models.OneToOneField(User,verbose_name='Клиент', on_delete=models.CASCADE,
                                 related_name='client')
-    organization = models.CharField(verbose_name='',max_length=200)
-    inn = models.PositiveIntegerField(verbose_name='',)
-    address = models.CharField(verbose_name='',max_length=200)
-    okpo = models.PositiveIntegerField(verbose_name='',)
+    organization = models.CharField(verbose_name='Наименование организации',max_length=200)
+    inn = models.PositiveIntegerField(verbose_name='ИНН',)
+    address = models.CharField(verbose_name='Адрес',max_length=200)
+    okpo = models.PositiveIntegerField(verbose_name='ОКПО',)
 
     def __str__(self):
         return f'{self.user}'
