@@ -10,6 +10,13 @@ class Client(models.Model):
     address = models.CharField(max_length=200)
     okpo = models.PositiveIntegerField()
 
+    def __str__(self):
+        return f'{self.user}'
+
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
 
 class Driver(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
@@ -24,15 +31,30 @@ class Driver(models.Model):
     engine_power = models.CharField(max_length=100)
     engine_type = models.CharField(max_length=100)
 
+    def __str__(self):
+        return f'{self.user}'
+
+    class Meta:
+        verbose_name = 'Водитель'
+        verbose_name_plural = 'Водители'
+
 
 class Order(models.Model):
+    name = models.CharField(max_length=100)
     owner = models.ForeignKey(Client, on_delete=models.CASCADE,
                               related_name='orders')
     receiver = models.CharField(max_length=200)
-    invoice = models.FileField(upload_to='files')
-    packing_list = models.FileField(upload_to='files')
+    invoice = models.FileField(upload_to='files/invoice')
+    packing_list = models.FileField(upload_to='files/packing_list')
     driver = models.ForeignKey(Driver, on_delete=models.SET_NULL,
                                related_name='orders', null=True, blank=True)
+    
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 
 class Worker(models.Model):
@@ -43,3 +65,10 @@ class Worker(models.Model):
     passport_id = models.PositiveIntegerField()
     full_name = models.CharField(max_length=200)
     place = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'{self.user}'
+
+    class Meta:
+        verbose_name = 'Рабочий'
+        verbose_name_plural = 'Рабочие'
