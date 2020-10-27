@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Client(models.Model):
@@ -24,6 +25,9 @@ class Order(models.Model):
     driver = models.ForeignKey(Driver, on_delete=models.SET_NULL,
                                related_name='orders', null=True, blank=True)
     status = models.CharField(max_length=50)
+
+    def get_absolute_url(self):
+        return reverse('client_order', args=[str(self.pk)])
 
 
 class Worker(models.Model):
