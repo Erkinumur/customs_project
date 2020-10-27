@@ -22,7 +22,7 @@ class Order(models.Model):
     weight = models.PositiveIntegerField()
     volume = models.PositiveIntegerField()
     driver = models.ForeignKey(Driver, on_delete=models.SET_NULL,
-                               related_name='orders')
+                               related_name='orders', null=True, blank=True)
     status = models.CharField(max_length=50)
 
 
