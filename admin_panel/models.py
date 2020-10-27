@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Client(models.Model):
@@ -55,6 +56,9 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
+    def get_absolute_url(self):
+        return reverse('client_order', args=[str(self.pk)])
 
 
 class Worker(models.Model):
