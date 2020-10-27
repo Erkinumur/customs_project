@@ -8,3 +8,4 @@ db.sqlite3
 migrations/
 .idea/
 static_root/media/
+media_root/
