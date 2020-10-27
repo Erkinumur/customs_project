@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <p>{{ object }}</p>
+  <p>{{ object.receiver }}</p>
+  <p><a href="{{ object.invoice.url }}">invoice</a></p>
+  <p><a href="{{ object.packing_list.url }}">packing_list</a></p>
+  <p>{{ object.driver }}</p>
+  {% if not object.driver %}
+  <form method="post">{% csrf_token %}
+    <input type="hidden" name="driver" value="true">
+    <button type="submit">Принять</button>
+  </form>
+  {% endif %}
+
+</body>
+</html>
