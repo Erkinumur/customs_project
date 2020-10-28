@@ -10,11 +10,11 @@
                 </div>
                 <div class="card-body ">
                     <div class="d-flex justify-content-around">
-                        <h5 class="card-title">Сотрудник: {{worker}} {{worker.user.last_name}}</h5>
+                        <h5 class="card-title">Сотрудник: {{worker.user.first_name}} {{worker.user.last_name}}</h5>
                         <p class="card-text"></p>
                     </div>
                     <div class="d-flex-justify-content-end">
-                        <a href="#" class="btn btn-primary justify-content-center">Подробнее</a>
+                        <a href="{{ worker.get_absolute_url }}" class="btn btn-primary justify-content-center">Подробнее</a>
                     </div>
                 </div>
             </div>

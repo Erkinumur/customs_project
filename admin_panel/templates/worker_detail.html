@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main_container">
+  <div class="content">
+      <p>Работник:
+        {{ object.user.first_name }} {{ object.user.last_name }}</p>
+      <p>Организация:
+        {{ object.organization }}</p>
+      <p>Телефон:
+        {{ object.phone }}</p>
+      <p>Номер паспорта:
+        {{ object.passport_id }}</p>
+      <p>Расположение:
+        {{ object.place }}</p>
+  </div>
+
+</div>
+
+{% endblock %}

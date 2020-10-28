@@ -16,5 +16,8 @@ urlpatterns = [
     path('worker_create/', worker_create, name='worker_create'),
     path('driver_create/', driver_create, name='driver_create'),
     path('signup/', signup, name='signup'),
-    path('index/', index, name='index')
+    path('index/', index, name='index'),
+    path('worker/', WorkerView.as_view(), name='worker'),
+    path('worker/<int:pk>/', WorkerDetailView.as_view(), name='worker_detail'),
+    path('drivers/<int:pk>/', DriverDetailView.as_view(), name='driver_detail')
 ]

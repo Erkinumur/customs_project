@@ -28,13 +28,15 @@ def signup(request):
 
 def worker_create(request):
     if request.method == 'POST':
-        form = WorkerForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            Worker.objects.create(user=user, organization=form.cleaned_data['organization'],
-            phone=form.cleaned_data['phone'],passport_id=form.cleaned_data['passport_id'],place=form.cleaned_data['place'])
-            if user.is_staff:
+        if request.user.is_staff:
+            form = WorkerForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                Worker.objects.create(user=user, organization=form.cleaned_data['organization'],
+                phone=form.cleaned_data['phone'],passport_id=form.cleaned_data['passport_id'],place=form.cleaned_data['place'])
                 return redirect('workers')
+            else:
+                return render(request, 'worker_create.html', {'form': form})
     form = WorkerForm()
     return render(request, 'worker_create.html', locals())
 
@@ -109,6 +111,11 @@ class CustomLoginView(LoginView):
         except:
             pass
         try:
+            worker = user.worker
+            return reverse('worker')
+        except:
+            pass
+        try:
             driver = user.driver
             return reverse('driver_orders')
         except:
@@ -123,7 +130,48 @@ def index(request):
     except:
         pass
     try:
+        worker = user.worker
+        return redirect('worker')
+    except:
+        pass
+    try:
         driver = user.driver
         return redirect('driver_orders')
     except:
         return redirect('login')
+
+
+class WorkerView(generic.ListView):
+    model = Driver
+    template_name = 'worker.html'
+
+    def get_queryset(self):
+        car_number = self.request.GET.get('car_number')
+        queryset = Driver.objects.filter(car_number=car_number)
+        return queryset
+
+
+class DriverDetailView(generic.DetailView):
+    model = Driver
+    template_name = 'driver_detail.html'
+
+    def post(self, request, *args, **kwargs):
+        driver = self.get_object()
+        approved = self.request.POST.get('approved')
+        if approved:
+            order = driver.orders.all().last()
+            order.approved = True
+            order.save()
+        return redirect('worker')
+
+
+class WorkerDetailView(generic.DetailView):
+    model = Worker
+    template_name = 'worker_detail.html'
+
+
+def main(request):
+    user = request.user
+    if user.is_authenticated:
+        return redirect('index')
+    return redirect('login')
