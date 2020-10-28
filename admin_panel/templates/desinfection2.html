@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% for order in orders %}
+<div class="main_container">
+    <div class="content">
+        <div class="first">
+            <div class="card mb-3">
+                <div class="card-header {% if order.approved %} bg-success {% else %} bg-danger {% endif %}">
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-around">
+                        <h5 class="card-title">Заказчик: {{order.owner.user.first_name}} {{order.owner.user.last_name}}</h5>
+                        <p class="card-text">Номер машины: {{order.driver.car_number}}</p>
+                    </div>
+                    <div class="d-flex-justify-content-end">
+                        <a href="#" class="btn btn-primary justify-content-center">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock%}

@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-  <p>{{ object }}</p>
-  <p>получатель - {{ object.receiver }}</p>
-  <p><a href="{{ object.invoice.url }}">invoice</a></p>
-  <p><a href="{{ object.packing_list.url }}">packing_list</a></p>
-  <p>Водитель - {% if object.driver %} {{ object.driver }} {% endif %}</p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main_container">
+  <div class="content">
+      <div class="first">
+          <div class="card mb-3">
+              <div class="card-header {% if order.approved %} bg-success {% else %} bg-danger {% endif %}">
+              </div>
+              <div class="card-body">
+                  <div class="d-flex justify-content-around">
+                      <p class="card-text">Номер машины:
+                        {{order.driver.car_number}}</p>
+                      <p>Товар: 
+                        {{ object }}</p>
+                      <p>Получатель: 
+                        {{ object.receiver }}</p>
+                      <p>Посмотреть инвойс: 
+                        <a href="{{ object.invoice.url }}">invoice</a></p>
+                      <p>Посмотреть упак-ый лист: 
+                        <a href="{{ object.packing_list.url }}">packing_list</a></p>
+                      <p>Водитель: 
+                        {% if object.driver %} {{ object.driver }} {% endif %}</p>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

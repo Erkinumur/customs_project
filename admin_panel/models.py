@@ -10,6 +10,7 @@ class Client(models.Model):
     inn = models.PositiveIntegerField(verbose_name='ИНН',)
     address = models.CharField(verbose_name='Адрес',max_length=200)
     okpo = models.PositiveIntegerField(verbose_name='ОКПО',)
+    client = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user}'
@@ -31,6 +32,7 @@ class Driver(models.Model):
     body_type = models.CharField(verbose_name='Кузов',max_length=100)
     engine_power = models.CharField(verbose_name='Мощность двигателя',max_length=100)
     engine_type = models.CharField(verbose_name='Тип двигателя',max_length=100)
+    driver = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user}'
@@ -38,6 +40,24 @@ class Driver(models.Model):
     class Meta:
         verbose_name = 'Водитель'
         verbose_name_plural = 'Водители'
+
+
+class Worker(models.Model):
+    user = models.OneToOneField(User,verbose_name='Рабочий', on_delete=models.CASCADE,
+                                related_name='worker')
+    organization = models.CharField(verbose_name='Название организации',max_length=100)
+    phone = models.CharField(verbose_name='Тел.номер',max_length=200)
+    passport_id = models.CharField(verbose_name='ID паспорта', max_length=50)
+    place = models.CharField(verbose_name='Адрес',max_length=200)
+    worker = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.user}'
+
+
+    class Meta:
+        verbose_name = 'Рабочий'
+        verbose_name_plural = 'Рабочие'
 
 
 class Order(models.Model):
@@ -49,6 +69,7 @@ class Order(models.Model):
     packing_list = models.FileField(verbose_name='Упаковочный лист',upload_to='files/packing_list')
     driver = models.ForeignKey(Driver,verbose_name='Водитель', on_delete=models.SET_NULL,
                                related_name='orders', null=True, blank=True)
+    approved = models.BooleanField(default=False)
     
     def __str__(self):
         return f'{self.name}'
@@ -59,20 +80,3 @@ class Order(models.Model):
 
     def get_absolute_url(self):
         return reverse('client_order', args=[str(self.pk)])
-
-
-class Worker(models.Model):
-    user = models.OneToOneField(User,verbose_name='Рабочий', on_delete=models.CASCADE,
-                                related_name='worker')
-    organization = models.CharField(verbose_name='Название организации',max_length=100)
-    phone = models.CharField(verbose_name='Тел.номер',max_length=200)
-    passport_id = models.CharField(verbose_name='ID паспорта', max_length=50)
-    place = models.CharField(verbose_name='Адрес',max_length=200)
-
-    def __str__(self):
-        return f'{self.user}'
-
-
-    class Meta:
-        verbose_name = 'Рабочий'
-        verbose_name_plural = 'Рабочие'
