@@ -66,7 +66,7 @@ class Worker(models.Model):
                                 related_name='worker')
     organization = models.CharField(verbose_name='Название организации',max_length=100)
     phone = models.CharField(verbose_name='Тел.номер',max_length=200)
-    passport_id = models.PositiveIntegerField(verbose_name='ID паспорта',)
+    passport_id = models.CharField(verbose_name='ID паспорта', max_length=50)
     place = models.CharField(verbose_name='Адрес',max_length=200)
 
     def __str__(self):
