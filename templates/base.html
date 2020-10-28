@@ -31,7 +31,9 @@
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            <button type="button" class="btn btn-outline-warning ml-2"><a href="{% url 'order_create'%}"> Добавить заказ</a></button>
+            <a href="{% url 'logout' %}">
+                <button type="button" class="btn btn-outline-danger ml-2">Выйти</button>
+            </a>
         </form>
     </div>
 </nav>
@@ -44,20 +46,24 @@
             </a>
         </li>
         {% else %}
+            {% if not request.user.worker %}
         <li class="order">
             <a href="{% url 'client_orders' %}">
                 <span>Заказы</span>
             </a>
         </li>
         {% endif %}
-        {% if request.user.is_staff or request.user.worker %}
+        {% endif %}
+        {% if request.user.is_staff %}
         <li class="desinfection"><a href="{% url 'desinfection' %}">
             <span>Дезинфекция</span>
         </a></li>
         {% else %}
+            {% if not request.user.worker %}
         <li class="desinfection"><a href="{% url 'desinfection_client' %}">
             <span>Дезинфекция</span>
         </a></li>
+        {% endif %}
         {% endif %}
         {% if request.user.is_staff %}
         <li><a href="{% url 'clients' %}">

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main_container">
+  <div class="content">
+      <p>Водитель:
+        {{ object.user.first_name }} {{ object.user.last_name }}</p>
+      <p>Категория:
+        {{ object.category }}</p>
+      <p>Модель авто:
+        {{ object.car_model }}</p>
+      <p>Год выпуска авто:
+        {{ object.year_of_issue }}</p>
+      <p>Цвет авто:
+        {{ object.color }}</p>
+      <p>Шасси авто:
+        {{ object.chassis }}</p>
+      <p>Кузов авто:
+        {{ object.body_type }}</p>
+      <p>Мощность двигателя авто:
+        {{ object.engine_power }}</p>
+      <p>Тип двигателя авто:
+        {{ object.engine_type }}</p>
+      <h4>Заказ</h4>
+        {% with order=object.orders.all.last %}
+          <p><a href="{{ order.get_absolute_url }}">{{ order }} Отправитель: {{ order.owner.user.first_name }} {{ order.owner.user.last_name }}</a></p>
+        {% endwith %}
+    {% if user.worker %}
+    <form method="post">{% csrf_token %}
+      <input type="hidden" name="approved" value="true">
+      <button type="submit" class="btn btn-success">Прошел проверку</button>
+    </form>
+    {% endif %}
+  </div>
+
+</div>
+
+{% endblock %}

@@ -14,11 +14,12 @@
   		 <h3>Авторизация</h3>
     </center>
 {% for field in form %}
-    {{ field.errors }}
+{{ field.errors }}
 {{field.label}}
 {{field}}  
 {% endfor %}
     <input type="submit" value="Авторизация">
+    <p>Еще не зарегистрированы? <a href="{% url 'signup' %}">Регистрация</a></p>
   </div>
 </form>
 </body>
