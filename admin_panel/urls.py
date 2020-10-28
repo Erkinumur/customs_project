@@ -5,7 +5,7 @@ from django.contrib.auth.views import LogoutView, LoginView
 
 
 urlpatterns = [
-    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('orders/', OrdersView.as_view(), name='orders'),
     path('clients/', ClientsView.as_view(), name='clients'),
@@ -16,4 +16,5 @@ urlpatterns = [
     path('worker_create/', worker_create, name='worker_create'),
     path('driver_create/', driver_create, name='driver_create'),
     path('signup/', signup, name='signup'),
+    path('index/', index, name='index')
 ]

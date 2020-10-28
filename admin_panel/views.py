@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import login, authenticate
@@ -93,3 +94,36 @@ class DesinfectionView(generic.ListView):
     model = Order
     template_name = 'desinfection.html'
     context_object_name = 'orders'
+
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_staff:
+            return reverse('orders')
+        try:
+            client = user.client
+            return reverse('client_orders')
+        except:
+            pass
+        try:
+            driver = user.driver
+            return reverse('driver_orders')
+        except:
+            return ''
+
+
+def index(request):
+    user = request.user
+    try:
+        client = user.client
+        return redirect('client_orders')
+    except:
+        pass
+    try:
+        driver = user.driver
+        return redirect('driver_orders')
+    except:
+        return redirect('login')

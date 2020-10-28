@@ -5,18 +5,20 @@
  <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
 </head>
 <body>
-<form class="decor" method="POST">{% csrf_token %}
+
+<form class="decor" method="POST" enctype=multipart/form-data>>{% csrf_token %}
   <div class="form-left-decoration"></div>
   <div class="form-right-decoration"></div>
   <div class="circle"></div>
   <div class="form-inner">
   	<center>
-  		 <h3>Новый заказ</h3>
+  		 <h3>Добавление сотрудника</h3>
     </center>
 {% for field in form %}
-{{field}}  
+{{field.label}}
+{{field}}
 {% endfor %}
-    <input type="submit" value="Создать">
+    <input type="submit" value="Добавить">
   </div>
 </form>
 </body>
