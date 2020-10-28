@@ -14,6 +14,7 @@
   		 <h3>Авторизация</h3>
     </center>
 {% for field in form %}
+    {{ field.errors }}
 {{field.label}}
 {{field}}  
 {% endfor %}
