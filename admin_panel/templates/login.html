@@ -1,0 +1,24 @@
+{% load static %}
+<html>
+<head>
+ <title>logistics</title>
+ <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+</head>
+<body>
+<form class="decor" method="POST">{% csrf_token %}
+  <div class="form-left-decoration"></div>
+  <div class="form-right-decoration"></div>
+  <div class="circle"></div>
+  <div class="form-inner">
+  	<center>
+  		 <h3>Авторизация</h3>
+    </center>
+{% for field in form %}
+{{field.label}}
+{{field}}  
+{% endfor %}
+    <input type="submit" value="Авторизация">
+  </div>
+</form>
+</body>
+</html>

@@ -4,11 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 
 
+class SignUpForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
+
+
 class WorkerForm(UserCreationForm):
-    organization = forms.CharField(max_length=100)
-    phone = forms.CharField(max_length=200)
-    passport_id = forms.IntegerField()
-    place = forms.CharField(max_length=200)
+    organization = forms.CharField(label='Организация', max_length=100)
+    phone = forms.CharField(label='Тел.номер', max_length=200)
+    passport_id = forms.CharField(label='ID паспорта', max_length=50)
+    place = forms.CharField(label='Местоположение', max_length=200)
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'organization', 'phone', 'passport_id', 'place']

@@ -1,7 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
+from django.contrib.auth import login, authenticate
 from .models import *
-from .forms import WorkerForm, DriverForm
+from .forms import WorkerForm, DriverForm, SignUpForm
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            if user.is_staff:
+                return redirect('orders')
+        else:
+            return render(request, 'signup.html', {'form':form})
+    form = SignUpForm()
+    return render(request, 'signup.html', locals())
+
 
 def worker_create(request):
     if request.method == 'POST':
@@ -10,7 +26,7 @@ def worker_create(request):
             user = form.save()
             Worker.objects.create(user=user, organization=form.cleaned_data['organization'],
             phone=form.cleaned_data['phone'],passport_id=form.cleaned_data['passport_id'],place=form.cleaned_data['place'])
-        form = form.errors
+            return redirect('workers')
     form = WorkerForm()
     return render(request, 'worker_create.html', locals())
 
@@ -26,6 +42,7 @@ def driver_create(request):
             color=form.cleaned_data['color'], chassis=form.cleaned_data['chassis'],
             body_type=form.cleaned_data['body_type'], engine_power=form.cleaned_data['engine_power'],
             engine_type=form.cleaned_data['engine_type'])
+            return redirect('drivers')
         form = form.errors
     form = DriverForm()
     return render(request, 'driver_create.html', locals())
@@ -53,3 +70,9 @@ class WorkersView(generic.ListView):
     model = Worker
     template_name = 'workers.html'
     context_object_name = 'workers'
+
+
+class DesinfectionView(generic.ListView):
+    model = Order
+    template_name = 'orders.html'
+    context_object_name = 'orders'
