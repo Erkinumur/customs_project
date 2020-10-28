@@ -5,9 +5,13 @@ from .models import *
 
 
 class SignUpForm(UserCreationForm):
+    organization = forms.CharField(label='Организация', max_length=200)
+    inn = forms.IntegerField(label='ИНН')
+    address = forms.CharField(label='Адрес', max_length=200)
+    okpo = forms.IntegerField(label='ОКПО')
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'organization', 'inn', 'address', 'okpo']
 
 
 class WorkerForm(UserCreationForm):

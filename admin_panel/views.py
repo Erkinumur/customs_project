@@ -10,9 +10,15 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            print('1')
+            Client.objects.create(user=user, organization=form.cleaned_data['organization'],
+            inn=form.cleaned_data['inn'], address=form.cleaned_data['address'],
+            okpo=form.cleaned_data['okpo'])
             login(request, user)
             if user.is_staff:
                 return redirect('orders')
+            else:
+                return redirect('client_orders')
         else:
             return render(request, 'signup.html', {'form':form})
     form = SignUpForm()
@@ -26,7 +32,8 @@ def worker_create(request):
             user = form.save()
             Worker.objects.create(user=user, organization=form.cleaned_data['organization'],
             phone=form.cleaned_data['phone'],passport_id=form.cleaned_data['passport_id'],place=form.cleaned_data['place'])
-            return redirect('workers')
+            if user.is_staff:
+                return redirect('workers')
     form = WorkerForm()
     return render(request, 'worker_create.html', locals())
 
@@ -46,6 +53,16 @@ def driver_create(request):
         form = form.errors
     form = DriverForm()
     return render(request, 'driver_create.html', locals())
+
+
+def desinfection_client(request):
+    if not request.user.is_staff:
+        orders = Order.objects.filter(owner__user=request.user)
+        return render(request, 'desinfection2.html', locals())
+    else:
+        return redirect('orders')
+    
+
 
 
 class OrdersView(generic.ListView):
@@ -74,5 +91,5 @@ class WorkersView(generic.ListView):
 
 class DesinfectionView(generic.ListView):
     model = Order
-    template_name = 'orders.html'
+    template_name = 'desinfection.html'
     context_object_name = 'orders'

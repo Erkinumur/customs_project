@@ -31,20 +31,35 @@
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            <button type="button" class="btn btn-outline-warning ml-2">Добавить заказ</button>
+            <button type="button" class="btn btn-outline-warning ml-2"><a href="{% url 'order_create'%}"> Добавить заказ</a></button>
         </form>
     </div>
 </nav>
 <div class="sidebar">
     <ul>
+        {% if request.user.is_staff %}
         <li class="order">
             <a href="{% url 'orders' %}">
                 <span>Заказы</span>
             </a>
         </li>
+        {% else %}
+        <li class="order">
+            <a href="{% url 'client_orders' %}">
+                <span>Заказы</span>
+            </a>
+        </li>
+        {% endif %}
+        {% if request.user.is_staff or request.user.worker %}
         <li class="desinfection"><a href="{% url 'desinfection' %}">
             <span>Дезинфекция</span>
         </a></li>
+        {% else %}
+        <li class="desinfection"><a href="{% url 'desinfection_client' %}">
+            <span>Дезинфекция</span>
+        </a></li>
+        {% endif %}
+        {% if request.user.is_staff %}
         <li><a href="{% url 'clients' %}">
             <span>Заказчики</span>
         </a></li>
@@ -60,6 +75,7 @@
         <li><a href="{% url 'driver_create' %}">
             <span>Добавить водителя</span>
         </a></li>
+        {% endif %}
     </ul>
 </div>
 {% block content %}
